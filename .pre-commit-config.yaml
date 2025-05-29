@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.0
+    hooks:
+      - id: ruff
+        name: Ruff Linter
+        args: ["--fix", "--config", "pyproject.toml"]
+        files: ^(src|tests)/
+        stages: [pre-commit, pre-push]
+      - id: ruff-format
+        name: Ruff Formatter
+        args: ["--config", "pyproject.toml"]
+        files: ^(src|tests)/
+        stages: [pre-commit, pre-push]
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: Run Tests
+        entry: .venv/Scripts/python.exe -m pytest # change this according your system
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [pre-commit]
+      - id: clear_cache
+        name: Clear cache after tests
+        entry: pwsh ./scripts/tools/cache/clear_cache.ps1 # change this according your system
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]

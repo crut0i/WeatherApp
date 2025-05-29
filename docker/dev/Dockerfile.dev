@@ -1,0 +1,40 @@
+FROM python:3.13-slim
+
+LABEL maintainer="PostME Team"
+LABEL version="1.0.0"
+LABEL description="Development Environment For Weather App"
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_ROOT_USER_ACTION=ignore \
+    TZ=Europe/Moscow
+
+ENV PROJECT_ROOT=/app
+
+COPY src /app
+WORKDIR /app
+COPY uv.lock pyproject.toml ./
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends --allow-downgrades \
+    tzdata=2025b-0+deb12u1 \
+    curl=7.88.1-10+deb12u12 \
+    ca-certificates=20230311 \
+    build-essential=12.9 \
+    && ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
+RUN sh /uv-installer.sh && rm /uv-installer.sh
+ENV PATH="/root/.local/bin/:$PATH"
+
+RUN uv sync \
+    && uv pip freeze > requirements.txt \
+    && pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 3000
+
+CMD ["hypercorn", "main:app", "--config", "/app/config/hypercorn.toml"]
