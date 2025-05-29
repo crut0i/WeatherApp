@@ -16,6 +16,18 @@ on:
   workflow_call:
 
 jobs:
+  reviewers:
+    name: Reviewers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request review
+        uses: necojackarc/auto-request-review@v0.13.0
+        if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]' && !contains(github.event.pull_request.title, '[[skip review]]') }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config: ./.github/reviewers.yml
+          use_local: true
+
   formatting:
     uses: ./.github/workflows/formatting.yml
     secrets: inherit
