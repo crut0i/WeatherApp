@@ -6,7 +6,7 @@ networks:
 
 services:
   weather-app:
-    image: ghcr.io/crut0i/weather-app
+    image: ghcr.io/crut0i/weatherapp
     container_name: weather-app
     restart: unless-stopped
     healthcheck:
