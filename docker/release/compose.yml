@@ -1,53 +1,22 @@
-# 👾 Weather App
-
-## 📝 Description
-
-Simple weather application, written in FastAPI
-
-Tech stack: fastapi, postgresql, redis, hashicorp vault, prometheus, promtail, loki, nginx
-
-Structure
-
-```tree
-📦Weather App
- ┣ 📂.github <- github setup
- ┣ 📂bin <- entrypoint
- ┣ 📂config <- project config
- ┣ 📂docker <- docker files
- ┣ 📂scripts <- maintenance scripts
- ┣ 📂src <- project sources
- ┣ 📂tests <- functional / unit tests
- ┣ 📜.coveragerc <- code coverage setup
- ┣ 📜.dockerignore <- docker ignoring setup
- ┣ 📜.gitignore <- git ignoring setup
- ┣ 📜.pre-commit-config.yaml <- pre-commit hooks
- ┣ 📜pyproject.toml <- project env setup
- ┣ 📜README.md <- this readme
- ┗ 📜uv.lock <- package & project manager
-```
-
-## 🐳 Deploy with docker
-
-### Docker compose
-
-```yml
 networks:
   weather-app-network:
     driver: bridge
 
 services:
   weather-app:
-    container_name: weather-app-dev
+    image: ghcr.io/crut0i/weather-app
+    container_name: weather-app
     restart: unless-stopped
-    build:
-      context: ../../
-      dockerfile: ./docker/dev/Dockerfile.dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     logging:
       driver: json-file
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
     volumes:
-      - ${APP_ROOT_PATH}:/app
       - ${APP_ENV_PATH}:/app/config/.env:ro
       - ${HYPERCORN_CONF_PATH}:/app/config/hypercorn.toml
     networks:
@@ -58,7 +27,6 @@ services:
       - loki
       - promtail
       - prometheus
-      - postgres
 
   nginx:
     image: nginx:alpine
@@ -131,21 +99,3 @@ services:
 
 volumes:
   prometheusdata:
-
-```
-
-## 🔒 **Secure Cloning**
-
-To securely clone this repository, you can use HTTPS or SSH
-
-### Cloning with HTTPS
-
-```bash
-git clone https://github.com/gofr-dev/gofr.git
-```
-
-### Cloning with SSH
-
-```bash
-git clone git@github.com:gofr-dev/gofr.git
-```

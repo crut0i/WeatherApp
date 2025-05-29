@@ -1,0 +1,19 @@
+reviewers:
+  defaults:
+    - repository-owners
+    - copilot
+
+  groups:
+    repository-owners:
+      - crut0i
+
+files:
+  '**':
+    - repository-owners
+    - copilot
+
+options:
+  ignore_draft: true
+  ignored_keywords:
+    - "[[skip review]]"
+  enable_group_assignment: false
