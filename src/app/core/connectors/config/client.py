@@ -39,8 +39,22 @@ class Settings(BaseSettings):
     openmeteo_geocoding_api_url: str
 
     # Frontend
-    static_path: str
-    templates_path: str
+    frontend_path: str
+
+    # App mode
+    app_mode: str = "production"
+
+    @property
+    def docs_url(self) -> str:
+        return None if self.app_mode == "production" else "/docs"
+
+    @property
+    def redoc_url(self) -> str:
+        return None if self.app_mode == "production" else "/redoc"
+
+    @property
+    def openapi_url(self) -> str:
+        return None if self.app_mode == "production" else "/openapi.json"
 
     @property
     def db_url(self) -> str:
