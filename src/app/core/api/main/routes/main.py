@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 
 from app.core.utils import log_utils
 from app.core.decorators import cached
+from app.core.decorators import require_auth
 from app.core.connectors.db.redis import redis_connector
 
 
@@ -31,31 +32,13 @@ class MainRoutes:
         )
         async def main_route():
             """
-            Redirect to docs
+            Redirect to help
 
             Returns:
                 RedirectResponse: Redirect to docs
             """
 
-            return RedirectResponse(url="/docs", status_code=302)
-
-        @self.router.get(
-            "/help",
-            response_class=JSONResponse,
-            status_code=200,
-            description="Help message",
-        )
-        async def help():
-            """
-            Help message
-
-            Returns:
-                JSONResponse: Help message
-            """
-
-            return JSONResponse(
-                status_code=200, content={"status": "success", "message": "documentation: /docs"}
-            )
+            return RedirectResponse(url="/", status_code=302)
 
         @self.router.get(
             "/health",
@@ -92,6 +75,7 @@ class MainRoutes:
             status_code=200,
             description="Get list of available exception dates",
         )
+        @require_auth()
         @cached(expire=3600)
         async def logs_list(request: Request):
             """
@@ -125,6 +109,7 @@ class MainRoutes:
             status_code=200,
             description="Get content of exception file for specific date",
         )
+        @require_auth()
         async def get_log_content(request: Request, date: str):
             """
             Get content of log file for specific date
@@ -152,6 +137,7 @@ class MainRoutes:
             status_code=200,
             description="Delete exception for specific date",
         )
+        @require_auth()
         async def delete_log(request: Request, date: str):
             """
             Delete log for specific date
