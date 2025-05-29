@@ -37,17 +37,19 @@ networks:
 
 services:
   weather-app:
-    container_name: weather-app-dev
+    image: ghcr.io/crut0i/weatherapp
+    container_name: weather-app
     restart: unless-stopped
-    build:
-      context: ../../
-      dockerfile: ./docker/dev/Dockerfile.dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     logging:
       driver: json-file
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
     volumes:
-      - ${APP_ROOT_PATH}:/app
       - ${APP_ENV_PATH}:/app/config/.env:ro
       - ${HYPERCORN_CONF_PATH}:/app/config/hypercorn.toml
     networks:
@@ -58,7 +60,6 @@ services:
       - loki
       - promtail
       - prometheus
-      - postgres
 
   nginx:
     image: nginx:alpine
@@ -131,7 +132,6 @@ services:
 
 volumes:
   prometheusdata:
-
 ```
 
 ## 🔒 **Secure Cloning**
