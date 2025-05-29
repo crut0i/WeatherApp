@@ -43,7 +43,12 @@ class App:
     """
 
     def __init__(self):
-        self.__app = FastAPI(lifespan=self.lifespan)
+        self.__app = FastAPI(
+            lifespan=self.lifespan,
+            docs_url=config.docs_url,
+            redoc_url=config.redoc_url,
+            openapi_url=config.openapi_url,
+        )
         self.__setup_middleware()
         self.__setup_static_files()
         self.__setup_routes()
@@ -74,7 +79,9 @@ class App:
         Setup application static files
         """
 
-        self.__app.mount("/static", StaticFiles(directory=config.static_path), name="static")
+        self.__app.mount(
+            "/static", StaticFiles(directory=config.frontend_path + "/static"), name="static"
+        )
 
     def __setup_routes(self) -> None:
         """

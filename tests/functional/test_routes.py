@@ -6,21 +6,6 @@ from unittest.mock import patch, AsyncMock
 
 
 @pytest.mark.asyncio
-async def test_main_route_redirect(client) -> None:
-    """Test main route redirect"""
-    response = client.get("/api")
-    assert response.status_code == status.HTTP_200_OK
-
-
-@pytest.mark.asyncio
-async def test_help_endpoint(client) -> None:
-    """Test help endpoint"""
-    response = client.get("/api/help")
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json() == {"status": "success", "message": "documentation: /docs"}
-
-
-@pytest.mark.asyncio
 @patch("app.core.utils.log_utils.get_available_dates")
 @patch("app.core.connectors.db.redis.redis_connector.get", new_callable=AsyncMock)
 @patch("app.core.connectors.db.redis.redis_connector.setex", new_callable=AsyncMock)

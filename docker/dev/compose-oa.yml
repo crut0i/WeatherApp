@@ -19,5 +19,4 @@ services:
       - ${APP_ROOT_PATH}:/app
       - ${APP_ENV_PATH}:/app/config/.env:ro
       - ${HYPERCORN_CONF_PATH}:/app/config/hypercorn.toml
-    networks:
-      - weather-app-network
+      
