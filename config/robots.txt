@@ -1,0 +1,29 @@
+User-agent: Googlebot
+Allow: /
+Disallow: /static/
+
+User-agent: Googlebot-Mobile
+Allow: /
+Disallow: /static/
+
+User-agent: Yandex   
+Allow: /
+Disallow: /static/
+
+User-agent: YandexBot
+Allow: /
+Disallow: /static/
+
+User-agent: Applebot
+Allow: /
+Disallow: /static/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /static/
+
+User-agent: *
+Disallow: /
+
+Crawl-delay: 5
+Host: https://weatherapp.crut0i.com

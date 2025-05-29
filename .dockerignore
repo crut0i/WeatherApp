@@ -1,0 +1,55 @@
+# Git
+.git
+.gitignore
+.pre-commit-config.yaml
+README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.coveragerc
+.uv.toml
+
+# Virtual Environment
+.env
+.env.prod
+.env.sample
+.venv
+env/
+venv/
+ENV/
+
+# config
+config
+
+# Tests
+tests/
+**/tests
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/

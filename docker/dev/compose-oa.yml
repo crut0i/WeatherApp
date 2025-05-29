@@ -1,0 +1,23 @@
+# Only app compose file
+
+networks:
+  weather-app-network:
+    driver: bridge
+
+services:
+  weather-app:
+    container_name: weather-app-dev
+    restart: unless-stopped
+    build:
+      context: ../../
+      dockerfile: ./docker/dev/Dockerfile.dev
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    volumes:
+      - ${APP_ROOT_PATH}:/app
+      - ${APP_ENV_PATH}:/app/config/.env:ro
+      - ${HYPERCORN_CONF_PATH}:/app/config/hypercorn.toml
+    networks:
+      - weather-app-network

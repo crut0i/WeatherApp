@@ -1,0 +1,10 @@
+bind = ["0.0.0.0:3000"]
+workers = 1
+use_reloader = true
+worker_class = "asyncio"
+keep_alive_timeout = 65
+websocket_ping_interval = 20
+h11_max_incomplete_event_size = 16384
+http_version = "quic"
+error_logfile = "-"
+loglevel = "critical"
