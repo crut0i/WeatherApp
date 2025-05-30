@@ -1,3 +1,11 @@
+<p align="center">
+  <a href="https://weatherapp.crut0i.com">
+    <img src="https://github.com/user-attachments/assets/10d7d70a-a8d2-4beb-92f9-b4c1c02f56c8" width="450" height="126" alt="Service logo" />
+  </a>
+</p>
+
+&nbsp;
+
 # 👾 Weather App
 
 ## 📝 Description
@@ -5,6 +13,21 @@
 Simple weather application, written in FastAPI
 
 Tech stack: fastapi, postgresql, redis, hashicorp vault, prometheus, promtail, loki, nginx
+
+Main feautures:
+
+- Saving user sessions & history to postgresql
+- Modern UI with search autofill
+- Restoring last search query
+- Admin API: logs, search history by session_id
+- Collecting logs by promtail, prometheus & loki
+- Safe secrets storing with hashicorp vault
+
+Todo:
+
+- Fix bugs & improve UI
+- Create admin dashboard
+- Deploy in k8s
 
 Structure
 
@@ -25,6 +48,8 @@ Structure
  ┣ 📜README.md <- this readme
  ┗ 📜uv.lock <- package & project manager
 ```
+
+Live demo available at: weatherapp.crut0i.com
 
 ## 🐳 Deploy with docker
 
@@ -149,3 +174,8 @@ git clone https://github.com/gofr-dev/gofr.git
 ```bash
 git clone git@github.com:gofr-dev/gofr.git
 ```
+
+------
+
+> [!WARNING]
+> Project using open-source weather API: open-meteo.com
