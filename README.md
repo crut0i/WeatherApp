@@ -80,11 +80,12 @@ services:
     networks:
       - weather-app-network
     depends_on:
-      - nginx
+      - vault
       - redis
       - loki
       - promtail
       - prometheus
+      - postgres
 
   nginx:
     image: nginx:alpine
@@ -96,6 +97,8 @@ services:
       - ${NGINX_CONF_PATH}:/etc/nginx/nginx.conf
     networks:
       - weather-app-network
+    depends_on:
+      - weather-app
 
   postgres:
     image: postgres:alpine
@@ -109,6 +112,35 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - weather-app-network
+
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    restart: unless-stopped
+    environment:
+      VAULT_ADDR: "${VAULT_ADDR:-http://127.0.0.1:8200}"
+      VAULT_API_ADDR: "${VAULT_API_ADDR:-http://127.0.0.1:8200}"
+      VAULT_ADDRESS: "${VAULT_ADDRESS:-http://127.0.0.1:8200}"
+    volumes:
+      - ./logs:/vault/logs/:rw
+      - ./data:/vault/data/:rw
+      - ./config:/vault/config/:rw
+      - ./certs:/certs/:rw
+      - ./file:/vault/file/:rw
+      - ${VAULT_CONFIG_PATH}:/vault/config/config.hcl
+    cap_add:
+      - IPC_LOCK
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    ports:
+      - "${VAULT_PORT:-127.0.0.1:8200}:8200"
+      - "${VAULT_PORT_CLUSTER:-127.0.0.1:8201}:8201"
+    networks:
+      - weather-app-network
+    entrypoint: vault server -config /vault/config/config.hcl
 
   redis:
     image: redis:alpine

@@ -22,12 +22,12 @@ services:
     networks:
       - weather-app-network
     depends_on:
-      - nginx
-      - redis
       - vault
+      - redis
       - loki
       - promtail
       - prometheus
+      - postgres
 
   nginx:
     image: nginx:alpine
@@ -39,6 +39,8 @@ services:
       - ${NGINX_CONF_PATH}:/etc/nginx/nginx.conf
     networks:
       - weather-app-network
+    depends_on:
+      - weather-app
 
   postgres:
     image: postgres:alpine
