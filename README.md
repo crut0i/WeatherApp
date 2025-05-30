@@ -198,13 +198,13 @@ To securely clone this repository, you can use HTTPS or SSH
 ### Cloning with HTTPS
 
 ```bash
-git clone https://github.com/gofr-dev/gofr.git
+git clone https://github.com/crut0i/WeatherApp.git
 ```
 
 ### Cloning with SSH
 
 ```bash
-git clone git@github.com:gofr-dev/gofr.git
+git clone git@github.com:crut0i/WeatherApp.git
 ```
 
 ------
