@@ -20,7 +20,6 @@ services:
     networks:
       - weather-app-network
     depends_on:
-      - nginx
       - vault
       - redis
       - loki
@@ -38,6 +37,8 @@ services:
       - ${NGINX_CONF_PATH}:/etc/nginx/nginx.conf
     networks:
       - weather-app-network
+    depends_on:
+      - weather-app
 
   postgres:
     image: postgres:alpine
