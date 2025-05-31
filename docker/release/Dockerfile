@@ -1,8 +1,8 @@
 FROM python:3.13-slim
 
-LABEL maintainer="PostME Team"
+LABEL maintainer="crut0i"
 LABEL version="1.0.0"
-LABEL description="Production Environment For DB Service"
+LABEL description="Production Environment For Weather App"
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -40,6 +40,6 @@ RUN useradd -m -u 1000 appuser && \
 
 USER appuser
 
-EXPOSE 5005
+EXPOSE 3000
 
 CMD ["hypercorn", "main:app", "--config", "/app/config/hypercorn.toml"]
