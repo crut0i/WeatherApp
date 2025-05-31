@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 
-LABEL maintainer="PostME Team"
+LABEL maintainer="crut0i"
 LABEL version="1.0.0"
 LABEL description="Development Environment For Weather App"
 
