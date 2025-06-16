@@ -19,7 +19,7 @@ dependencies = [
     "fastapi==0.115.12",
     "redis==6.2.0",
     "tomli==2.2.1",
-    "pydantic==2.11.5",
+    "pydantic==2.11.7",
     "pydantic-settings==2.9.1",
     "apscheduler==3.11.0",
     "colorlog==6.9.0",
